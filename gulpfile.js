@@ -1,10 +1,6 @@
 const gulp = require('gulp'),
     sass = require('gulp-sass'),
     bs = require('browser-sync'),
-    concat = require('gulp-concat'),
-    uglify = require('gulp-uglifyjs'),
-    cssnano = require('gulp-cssnano'),
-    rename = require('gulp-rename'),
     del = require('del'),
     imagemin = require('gulp-imagemin'),
     pngquant = require('imagemin-pngquant'),
@@ -16,15 +12,6 @@ gulp.task('html', function () {
         .pipe(bs.reload({
             stream: true
         }))
-});
-
-gulp.task('css-libs', function () {
-    return gulp.src('src/css/libs.css')
-        .pipe(cssnano())
-        .pipe(rename({
-            suffix: '.min'
-        }))
-        .pipe(gulp.dest('src/css'))
 });
 
 gulp.task('sass', function () {
@@ -39,16 +26,6 @@ gulp.task('sass', function () {
         .pipe(bs.reload({
             stream: true
         }))
-});
-
-gulp.task('js-libs', function () {
-    return gulp.src([
-            'src/libs/jquery/dist/jquery.min.js',
-            'src/libs/magnific-popup/dist/jquery.magnific-popup.min.js'
-        ])
-        .pipe(concat('libs.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('src/js'))
 });
 
 gulp.task('bs', function () {
@@ -70,7 +47,6 @@ gulp.task('prebuild', async function () {
 
     const buildCss = gulp.src([
             'src/css/main.css',
-            'src/css/libs.min.css'
         ])
         .pipe(gulp.dest('dist/css'));
 
@@ -101,8 +77,8 @@ gulp.task('clear', function () {
 gulp.task('watch', function () {
     gulp.watch('src/sass/**/*.sass', gulp.parallel('sass'));
     gulp.watch('src/*.html', gulp.parallel('html'));
-    gulp.watch(['src/js/common.js', 'app/libs/**/*.js'], gulp.parallel('js-libs'));
+    gulp.watch(['src/js/common.js']);
 });
 
-gulp.task('default', gulp.parallel('css-libs', 'sass', 'js-libs', 'bs', 'watch'));
+gulp.task('default', gulp.parallel('sass', 'bs', 'watch'));
 gulp.task('build', gulp.parallel('clean', 'prebuild', 'img'));

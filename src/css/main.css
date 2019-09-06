@@ -99,13 +99,14 @@ label:focus, input:focus {
   grid-column: 1 / span 3;
 }
 
-#btn {
+#submit-button {
   background-color: #FCD669;
   color: #525f7f;
   cursor: pointer;
+  -webkit-appearance: none;
 }
 
-#btn:hover {
+#submit-button:hover {
   background-color: #7488aa;
   color: #FCD669;
 }
